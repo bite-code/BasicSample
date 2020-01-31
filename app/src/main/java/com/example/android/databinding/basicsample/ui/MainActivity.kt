@@ -26,6 +26,7 @@ import com.example.android.databinding.basicsample.R
 import com.example.android.databinding.basicsample.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 import java.time.LocalDateTime
+import kotlin.math.pow
 
 /**
  * There are lots of ways call coroutine:
@@ -126,6 +127,112 @@ class MainActivity : AppCompatActivity() {
 //        cancelTest()
 //        testCoroutinScoopes()
 
+        // #1 lambda to func
+        calculateBmiAndDowhatEverYouPassed(98f, 1.96f) {
+            println("Mahdi $it")
+            //bla bla bla
+            //Do something
+        }
+
+        // #2 default arguments
+        defaultValueFunction("Mahdi", 37, 1000000f)
+        defaultValueFunction("Mahdi")
+
+        // #3 variable arguments
+        varargFunAsList("Mahd", "Tajik", "Bitecode")
+        varargFunAsList(1, 2, 3, 4, 5, 6, 7, 8, 9)
+
+        // #4 Infix notation
+        println("Mahdi 3 x 5 =" + (3 zarbdar 5))
+        println("Mahdi 3 x 6 =" + (3.zarbdar(6)))
+
+        // #5 Extention
+        println("Mahdi 9 / 3 =" + (9.taghsim(3)))
+
+
+        /**
+         * When using lambdas, the extra memory allocations and extra virtual method call introduce some runtime overhead.
+         * So, if we were executing the same code directly,
+         * instead of using lambdas, our implementation would be more efficient.
+         *
+         * So basically inline can be used when we wish to reduce memory overhead.
+         * But inline also increases the resulting bytecode. Which is why,
+         * inline usage should be avoided with large functions or accessors with large code logic.
+         *
+         * @sample https://www.baeldung.com/kotlin-inline-functions
+         **/
+
+        // #6 Inline
+        printYourFunctionResultInline("mahdi") {
+            it.replace("M", "m").replace("a", "A")
+        }
+
+        /**
+         * A higher-order function is a function that takes functions as parameters, or returns a function.
+         */
+        // #7 higher-order function
+        higherFunctionExample()
+
+    }
+
+    private fun higherFunctionExample() {
+
+        val items = listOf(1, 2, 3, 4, 5)
+
+        // Lambdas are code blocks enclosed in curly braces.
+        items.fold(10, {
+            // When a lambda has parameters, they go first, followed by '->'
+            acc: Int, i: Int ->
+            print("Mahdi ----acc = $acc, i = $i, ")
+            val result = acc + i
+            println("Mahdi ---result = $result")
+            // The last expression in a lambda is considered the return value:
+            result
+        })
+
+
+        fun <T, R> Collection<T>.fold(initial: R, combine: (acc: R, nextElement: T) -> R):R {
+            var accumulator: R = initial
+            for (element: T in this) {
+                accumulator = combine(accumulator, element)
+            }
+            return accumulator
+        }
+    }
+
+
+    private inline fun printYourFunctionResultInline(name: String, function: (String) -> String) {
+
+        println("Mahdi---  ${function(name)}")
+    }
+
+    inline fun CharSequence.replache(regex: Regex, noinline transform: (MatchResult) -> CharSequence): String = regex.replace(this, transform)
+
+    infix fun Int.zarbdar(input: Int): Int = this * input
+
+    fun Int.taghsim(input: Int): Int = this / input
+
+
+    fun <T> varargFunAsList(vararg ts: T): List<T> {
+
+        val result = ArrayList<T>()
+        for (t in ts) {
+            result.add(t)
+        }
+        return result
+    }
+
+    fun calculateBmiAndDowhatEverYouPassed(wightInKg: Float, heightInMeter: Float, fooFun: (x: Float) -> Unit): Float {
+
+        val result = wightInKg / heightInMeter.pow(2)
+        fooFun(result)
+        return result
+
+    }
+
+    fun defaultValueFunction(name: String,
+                             age: Int = 30,
+                             salalr: Float = 500000f) {
 
     }
 
@@ -262,7 +369,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun functiinSample(){
+    fun functiinSample() {
 
     }
 
