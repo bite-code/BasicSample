@@ -167,10 +167,20 @@ class MainActivity : AppCompatActivity() {
             it.replace("M", "m").replace("a", "A")
         }
 
+
         /**
          * A higher-order function is a function that takes functions as parameters, or returns a function.
          */
         // #7 higher-order function
+
+        val callback = { s: String -> s.replace("s","") }
+        printYourFunctionResultInline("mahdi",callback)
+
+        // Also example
+        val callback2 = { _: String -> "Mahdi" } //When it is always do fixed thing and no matter what is input is
+        printYourFunctionResultInline("mahdi",callback2)
+
+        // Also example
         higherFunctionExample()
 
     }
