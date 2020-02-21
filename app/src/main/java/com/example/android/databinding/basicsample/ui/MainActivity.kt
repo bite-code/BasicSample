@@ -127,6 +127,9 @@ class MainActivity : AppCompatActivity() {
 //        cancelTest()
 //        testCoroutinScoopes()
 
+        testAsync()
+
+        /*
         // #1 lambda to func
         calculateBmiAndDowhatEverYouPassed(98f, 1.96f) {
             println("Mahdi $it")
@@ -173,15 +176,21 @@ class MainActivity : AppCompatActivity() {
          */
         // #7 higher-order function
 
-        val callback = { s: String -> s.replace("s","") }
-        printYourFunctionResultInline("mahdi",callback)
+        val callback = { s: String -> s.replace("s", "") }
+        printYourFunctionResultInline("mahdi", callback)
 
         // Also example
         val callback2 = { _: String -> "Mahdi" } //When it is always do fixed thing and no matter what is input is
-        printYourFunctionResultInline("mahdi",callback2)
+        printYourFunctionResultInline("mahdi", callback2)
 
         // Also example
         higherFunctionExample()
+
+
+        coroutineBlockingTest2()
+
+         */
+
 
     }
 
@@ -201,7 +210,7 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        fun <T, R> Collection<T>.fold(initial: R, combine: (acc: R, nextElement: T) -> R):R {
+        fun <T, R> Collection<T>.fold(initial: R, combine: (acc: R, nextElement: T) -> R): R {
             var accumulator: R = initial
             for (element: T in this) {
                 accumulator = combine(accumulator, element)
@@ -336,8 +345,7 @@ class MainActivity : AppCompatActivity() {
                 50
             }
 
-
-            println("*** Mahdi result =$result1 , $result2 ")
+//            result3.println("*** Mahdi result =$result1 , $result2 ")
             println("*** Mahdi result =$result1 , $result2 ,${result3.await()}")
 
         }
@@ -360,6 +368,14 @@ class MainActivity : AppCompatActivity() {
                     5
                 }
 
+                runBlocking {
+                    for (i in 0..100) {
+                        println("I want ti check if this blocking all therad or just sub thread $i")
+                        delay(100)
+
+                    }
+                }
+
                 val secondValue = async {
 
                     delay(500)
@@ -373,6 +389,15 @@ class MainActivity : AppCompatActivity() {
                 println("Mahdi first:${firstValue.await()}-" + LocalDateTime.now())
                 println("Mahdi second:${secondValue.await()}-" + LocalDateTime.now())
                 println("Mahdi sum" + (firstValue.await() + secondValue.await()) + " " + LocalDateTime.now())
+            }
+
+            launch {
+                for (i in 0..100) {
+                    println("Mahdi ----- second $i")
+                    delay(100)
+
+                }
+
             }
 
         }
